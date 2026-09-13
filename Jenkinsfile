@@ -2,6 +2,10 @@ pipeline {
 
     agent any
 
+    tools {
+        jdk 'jdk25'
+    }
+
     options {
         skipDefaultCheckout(true)
         timestamps()
@@ -17,6 +21,7 @@ pipeline {
 
         stage('Verify Tools') {
             steps {
+                bat 'echo JAVA_HOME=%JAVA_HOME%'
                 bat 'java -version'
                 bat 'git --version'
 
@@ -45,7 +50,6 @@ pipeline {
     }
 
     post {
-
         success {
             echo 'CI pipeline completed successfully.'
         }
