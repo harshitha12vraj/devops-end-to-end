@@ -18,15 +18,18 @@ pipeline {
         stage('Verify Tools') {
             steps {
                 bat 'java -version'
-                bat 'mvn -version'
                 bat 'git --version'
+
+                dir('application/backend') {
+                    bat 'call mvnw.cmd -version'
+                }
             }
         }
 
         stage('Build and Test') {
             steps {
                 dir('application/backend') {
-                    bat 'mvn clean package'
+                    bat 'call mvnw.cmd clean package'
                 }
             }
         }
