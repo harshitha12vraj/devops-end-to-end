@@ -39,6 +39,28 @@ pipeline {
             }
         }
 
+        stage('SonarQube Analysis') {
+            steps {
+                dir('application/backend') {
+                    withSonarQubeEnv('sonarqube') {
+                        bat '''
+                        call mvnw.cmd sonar:sonar ^
+                        -Dsonar.projectKey=devops-backend ^
+                        -Dsonar.projectName=devops-backend
+                        '''
+                    }
+                }
+            }
+        }
+
+        stage('Quality Gate') {
+            steps {
+                timeout(time: 5, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
+
         stage('Archive Artifact') {
             steps {
                 archiveArtifacts(
