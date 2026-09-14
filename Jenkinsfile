@@ -44,7 +44,7 @@ pipeline {
                 dir('application/backend') {
                     withSonarQubeEnv('sonarqube') {
                         bat '''
-                        call mvnw.cmd sonar:sonar ^
+                        call mvnw.cmd org.sonarsource.scanner.maven:sonar-maven-plugin:sonar ^
                         -Dsonar.projectKey=devops-backend ^
                         -Dsonar.projectName=devops-backend
                         '''
